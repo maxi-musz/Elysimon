@@ -20,7 +20,7 @@ const ItemContent: React.FC<ItemContentProps> = ({
     
     return <div className="
     grid
-    grid-cols-5
+    grid-cols-5 
     text-xs
     md:text-sm
     gap-4

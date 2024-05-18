@@ -15,7 +15,7 @@ export default function Home() {
           {products.map((product: any) => {
             return <ProductCard key={product.id} data={product}/>
           })}
-        </div>
+        </div> 
       </Container>
     </div>
   )
