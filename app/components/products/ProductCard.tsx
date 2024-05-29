@@ -21,7 +21,7 @@ const ProductCard:React.FC<ProductCardProps> = ({data}) => {
             <div className="
             flex 
             flex-col 
-            items-center 
+            items-center  
             w-full 
             gap-1
             ">

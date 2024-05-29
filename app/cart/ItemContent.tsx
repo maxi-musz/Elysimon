@@ -16,7 +16,7 @@ const ItemContent: React.FC<ItemContentProps> = ({
     item
 }) => {
 
-    const {removeFromCart} = useCart()
+    const {removeFromCart, handleCartQtyIncrease, handleCartQtyDecrease} = useCart()
     
     return <div className="
     grid
@@ -62,8 +62,8 @@ const ItemContent: React.FC<ItemContentProps> = ({
         <div className="justify-self-center"><SetQUantity
         cartCounter={true}
         cartProduct={item}
-        handleQtyIncrease={() => {}}
-        handleQtyDecrease={() => {}}
+        handleQtyIncrease={() => handleCartQtyIncrease(item)}
+        handleQtyDecrease={() => handleCartQtyDecrease(item)}
         />
         </div>
         <div className="justify-self-end font-semibold">

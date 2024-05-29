@@ -24,7 +24,7 @@ const CartClient = () => {
                     ">
                     <MdArrowBack/>
                     <span>Start Shopping</span>
-                    </Link>
+                    </Link> 
                 </div>
             </div>
         )
