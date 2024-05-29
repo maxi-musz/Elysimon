@@ -4,11 +4,13 @@ import toast from "react-hot-toast";
 
 type CartContextType = {
     cartTotalQty: number;
+    cartTotalAmount: number;
     cartProducts: CartProductType[] | null
     handleAddProductToCart: (product: CartProductType) => void
     removeFromCart: (product: CartProductType) => void
     handleCartQtyIncrease: (product: CartProductType) => void
     handleCartQtyDecrease: (product: CartProductType) => void
+    handleClearCart: () => void
 }
 
 export const CartContext = createContext<CartContextType | null> (null)
@@ -20,9 +22,11 @@ interface Props{
 export const CartContextProvider = (props: Props) => {
 
     const [cartTotalQty, setCartTotalQty] = useState(0)
+    const [cartTotalAmount, setCartTotalAmount] = useState(0)
     const [cartProducts, setCartProducts] = useState<CartProductType[] | null>(null);
 
-    
+    console.log("Qty: ", cartTotalQty)
+    console.log("Amount: ", cartTotalAmount)
 
     useEffect(() =>{
         const cartItems: any = localStorage.getItem("eshopCartItems")
@@ -31,17 +35,16 @@ export const CartContextProvider = (props: Props) => {
         setCartProducts(cartProducts)
     }, []);
 
-    const [cartTotalAmount, setCartTotalAmount] = useState({ total: 0, qty: 0 });
-
     useEffect(() => {
       const getTotals = () => {
         if (!cartProducts) {
           // Handle the case where cartProducts is null or undefined
-          setCartTotalAmount({ total: 0, qty: 0 });
+          setCartTotalAmount(0);
+          setCartTotalQty(0);
           return;
         }
   
-        const totals = cartProducts.reduce((acc, item) => {
+        const {total, qty} = cartProducts.reduce((acc, item) => {
           const itemTotal = item.price * item.quantity;
   
           acc.total += itemTotal;
@@ -53,7 +56,8 @@ export const CartContextProvider = (props: Props) => {
           qty: 0
         });
   
-        setCartTotalAmount(totals);
+        setCartTotalAmount(total);
+        setCartTotalQty(qty);
       };
   
       getTotals();
@@ -140,16 +144,24 @@ export const CartContextProvider = (props: Props) => {
             console.error("cartProducts is null or undefined");
         }
     }, [cartProducts, setCartProducts]);
+
+    const handleClearCart = useCallback(() => {
+        setCartProducts(null)
+        setCartTotalQty(0)
+
+        localStorage.setItem("eShopCartItems", JSON.stringify(null));
+    }, [])
     
 
  const value = {
         cartTotalQty,
+        cartTotalAmount,
         cartProducts,
         handleAddProductToCart,
         removeFromCart,
         handleCartQtyIncrease,
-        handleCartQtyDecrease
-
+        handleCartQtyDecrease,
+        handleClearCart
     }
     
     return <CartContext.Provider value={value} {...props}/>
